@@ -66,7 +66,7 @@ def crear_examen(pdf_path, preguntas, instrucciones, logo_nombre, logo_width=200
 
     # Función mejorada de salto de página
     def verificar_salto(y_necesario, y_actual, titulo_seccion=None):
-        if y_actual - y_necesario < 50: # El numero es el espacio minimo al final de pagina
+        if y_actual - y_necesario < 50: # El numero es el espacio minimo entre la última linea y el final de la página
             c.showPage()
             nuevo_y = 750
             if titulo_seccion:
@@ -138,22 +138,41 @@ def crear_examen(pdf_path, preguntas, instrucciones, logo_nombre, logo_width=200
 
     c.save()
 
-# Datos de ejemplo con textos largos
+
+
+# CAMBIA AQUI LOS DATOS DEL EXAMEN
+
 # Sigue siempre el mismo esquema.
-# No cambies las palabras "preguntas" ni "instrucciones".
-# datos_examen es un objeto {}. Los objetos estan compuestos de pares clave: valor. Cada par clave: valor se separa por comas.
-# ejemplo de objeto: persona = {nombre: Samuel, apellido: Elcure}
+
+# No cambies las palabras "preguntas" ni "instrucciones". Tampoco el nombre de la variable datos_examen
+
+# datos_examen es un objeto {}. Los objetos {} estan compuestos de pares clave: valor. Cada par clave: valor se separa por comas.
+# ejemplo de objeto:    persona = {nombre: Samuel, apellido: Elcure}.    persona es un objeto {} con las claves nombre y apellido y sus respectivos valores.
+
 # "preguntas" e "instrucciones" son claves del objeto datos_examen: datos_examen = {"preguntas": {}, "instrucciones": []}
 # Como puedes ver el valor de preguntas  es otro objeto {} y el de instrucciones una lista [].
-# el objeto preguntas {}, tiene como clave el enunciado de la pregunta entre "". El valor es una lista [] de respuestas. Cada palabra en la lista tiene que ir con "" y separada por coma.
-# ejemplo preguntas: preguntas = {"enunciado": ["respuesaA", "respuestaB"], "enucniado2": ["respuestaA", "RespuestaB"]}
+
+# el objeto preguntas {}, tiene como clave el enunciado de la pregunta entre "". El valor es una lista [] de respuestas.
+# Cada palabra en una lista [] tiene que ir con "" y separada por coma.
+
+# ejemplo preguntas:     {"preguntas": {"enunciado": ["respuesaA", "respuestaB"], "enunciado2": ["respuestaA", "RespuestaB"]}}
+# objeto preguntas ->                   |__clave__|: |__________valor__________|
+# objeto datos_examen->   |__clave__|: |________________________________________valor_________________________________________|
+
+
 # instrucciones es directamente una lista []. Cada frase o parrafo en la lista se separa por comas.
-# Para que entiendas bien el formato de lo de abajo, si quitamos todo seria asi: datos_examen = {"preguntas": {"enunciado1": ["RespuestaA", "RespuestaB"], "enunciado2": ["RespuestaA", "RespuestaB"]}, "instrucciones": ["Instruccion1", "Instrucción2"]}
+
+# Para que entiendas bien el formato de lo de abajo, si quitamos todo seria asi: 
+#                                                    datos_examen = {"preguntas": {"enunciado1": ["RespuestaA", "RespuestaB"], "enunciado2": ["RespuestaA", "RespuestaB"]}, "instrucciones": ["Instruccion1", "Instrucción2"]}
+# Claves: valores de preguntas ->                                                  |__clave___|: |_________valor____________|,  |__clave__|: |______________valor_______|
+# Claves: valores de datos_examen ->                                |___clave__|: |_________________________________________valor________________________________________|, |____clave____|: |__________valor________________|
+
+
 # Puedes poner el numero de respuestas por pregunta que quieras y el numero de preguntas que quieras. Tambien de instrucciones.
 
 
-datos_examen = {
-    "preguntas": { # Se abre el objeto preguntas {}
+datos_examen = { # Se abre el objeto datos_examen.
+    "preguntas": { # Se crea la clave "preguntas" y se le da un valor de objeto {} que se abre aquí
         "Explique en detalle el proceso de fotosíntesis y su importancia ecológica:": [ # "Enunciado de la pregunta": Se abre la lista respuestas []
             "Proceso biológico que convierte energía lumínica en química usando clorofila, agua y dióxido de carbono, liberando oxígeno como subproducto.", # pongo una , entre respuestas
             "Mecanismo fundamental para la vida en la Tierra que sustenta las cadenas tróficas y regula el clima global.",
@@ -172,7 +191,7 @@ datos_examen = {
         ],
         "Pregunta 4": ["Respuesta A", "Respuesta B"] # No se pone coma al final de la última pregunta
     }, # Se cierra el objeto preguntas {} y pongo , para separarlo de instrucciones
-    "instrucciones": [ # Se abre la lista instrucciones []
+    "instrucciones": [ # Se crea la clave "instrucciones y se le da valor de lista [] que se abre aqui.
         "Instrucción 1", # Cada apartado de instrucciones va entre "" y se separa por una coma.
         "Instrucción 2",
         "Instrucción 3: Puede ser perfectamente una linea larga o un párrafo.",
@@ -180,11 +199,11 @@ datos_examen = {
     ] # Se cierra lista instrucciones.
 }
 
-crear_examen("examen_avanzado11.pdf", # Cambiar aqui el nombre del pdf creado
+crear_examen("examen_avanzado11.pdf", # Cambiar aqui el nombre del pdf creado. Si guardas los pdfs aqui, cambia el nombre cada vez pq te dará fallo si intenta crear uno que ya existe.
             datos_examen["preguntas"], 
             datos_examen["instrucciones"], 
-            "logo proyecto.png", # Nombre completo del archivo del logo (tiene que estar en la carpeta logos)
+            "logo proyecto.png", # Nombre completo del archivo del logo entre "" (tiene que estar en la carpeta logos)
             logo_width=400, # Largo del logo (cambia el num)
-            logo_height=120) # Ancho del logo (cambia el num)
+            logo_height=120) # Alto del logo (cambia el num)
 
 print("PDF generado con éxito!")
